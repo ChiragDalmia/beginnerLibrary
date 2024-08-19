@@ -60,9 +60,13 @@
 }
 
 @layer base {
+  .nunito-1000 {
+      font-family: "Nunito", sans-serif;
+    }
   * {
-    @apply border-border;
-    font-family: cursive;
+    @apply border-border nunito-1000;
+
+
   }
 
   body {
