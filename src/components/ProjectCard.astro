@@ -16,7 +16,7 @@ interface Props {
 const { project } = Astro.props;
 ---
 
-<div class="group relative">
+<div class="group relative translate-y-10 opacity-0" data-project-card>
   <a
     href={project.demo}
     target="_blank"
@@ -72,3 +72,45 @@ const { project } = Astro.props;
     </a>
   </div>
 </div>
+
+<script>
+  function setupIntersectionObserver() {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-fade-in-up");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+      }
+    );
+
+    document.querySelectorAll("[data-project-card]").forEach((card) => {
+      observer.observe(card);
+    });
+  }
+
+  // Run the setup function when the document is ready
+  document.addEventListener("DOMContentLoaded", setupIntersectionObserver);
+</script>
+
+<style>
+  .animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
